@@ -11,7 +11,7 @@ app = Flask(__name__)
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(object, Twit):
-            return {'body':object.body, 'author':object.author}
+            return dict(body=object.body, author=object.author)
         else:
             return super().default(object)
 
