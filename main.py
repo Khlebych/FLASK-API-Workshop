@@ -10,10 +10,10 @@ app = Flask(__name__)
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, o):
-        if isinstance(object, Twit):
-            return dict(body=object.body, author=object.author)
+        if isinstance(o, Twit):
+            return dict(body=o.body, author=o.author)
         else:
-            return super().default(object)
+            return super().default(o)
 
 
 app.json_encoder = CustomJSONEncoder
@@ -27,17 +27,16 @@ def ping():
 @app.route('/twit', methods=['POST'])
 def create_twit():
     """{"body":"Hello World","author":"@aqaguy"}"""
-
-    twit_json = request.get_jsonj()
-    twit = Twit(twit_json['body'],twit_json['author'])
+    twit_json = request.get_json()
+    twit = Twit(twit_json['body'], twit_json['author'])
     twits.append(twit)
-    return jsonify({'status':'success'})
+    return jsonify({'status': 'success'})
 
 
 @app.route("/twit", methods=['GET'])
 def read_twits():
-    return jsonify({'twits': twits})
+    return jsonify({'twits': [twit.__dict__ for twit in twits]})
 
 
-if __name__ == '__maim__':
+if __name__ == '__main__':
     app.run(debug=True)
