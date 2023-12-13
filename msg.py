@@ -1,7 +1,7 @@
 from user import User
 
 
-class Twit:
+class Msg:
 
     def __init__(self, body: str, author: User):
         self.body = body

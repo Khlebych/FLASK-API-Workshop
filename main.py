@@ -1,15 +1,16 @@
 import json
-from twit import Twit
+from msg import Msg
 from flask import Flask, jsonify, request
 
 
-twits = []
+msgs = []
 
 app = Flask(__name__)
 
+
 class CustomJSONEncoder(json.JSONEncoder):
    def default(self, o):
-       if isinstance(o, Twit):
+       if isinstance(o, Msg):
            return {'body':o.body, 'author':o.author}
        else:
            return super().default(o)
@@ -20,17 +21,20 @@ app.json_encoder = CustomJSONEncoder
 def ping():
    return jsonify({'response': 'pong'})
 
-@app.route('/twit', methods=['POST'])
-def create_twit():
+@app.route('/msg', methods=['POST'])
+def create_msg():
    """{"body":"Hello World","author":"@aqaguy"}"""
-   twit_json = request.get_json()
-   twit = Twit(twit_json['body'],twit_json['author'])
-   twits.append(twit)
+
+   msg_json = request.get_json()
+   msg = Msg(msg_json['body'], msg_json['author'])
+   msgs.append(msg)
    return jsonify({'status':'success'})
 
-@app.route("/twit", methods=['GET'])
-def read_twits():
-   return jsonify({'twits': [twit.__dict__ for twit in twits]})
+
+@app.route("/msg", methods=['GET'])
+def read_msgs():
+   return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
+
 
 if __name__ == '__main__':
    app.run(debug=True)
