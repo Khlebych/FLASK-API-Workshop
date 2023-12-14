@@ -30,19 +30,19 @@ def ping():
     return jsonify({'response server': 'ping  OK'})
 
 
-@app.route('/user', methods=['POST'])
-def create_user():
-    """ {"user_id": 1, "username": "qwerty"} """
-
-    user_json = request.get_json()
-    usr = User(user_json['user_id'], user_json['username'])
-    users.append(usr)
-    return jsonify({'status user:': ' - success'})
-
-
-@app.route("/user", methods=['GET'])
-def read_user():
-    return jsonify({'users': [user.__dict__ for user in users]})
+# @app.route('/user', methods=['POST'])
+# def create_user():
+#     """ {"user_id": 1, "username": "qwerty"} """
+#
+#     user_json = request.get_json()
+#     usr = User(user_json['user_id'], user_json['username'])
+#     users.append(usr)
+#     return jsonify({'status user:': ' - success'})
+#
+#
+# @app.route("/user", methods=['GET'])
+# def read_user():
+#     return jsonify({'users': [user.__dict__ for user in users]})
 
 
 @app.route('/msg', methods=['POST'])
