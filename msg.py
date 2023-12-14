@@ -7,4 +7,3 @@ class Msg:
         self.msg_id = msg_id
         self.author = author
         self.body = body
-
