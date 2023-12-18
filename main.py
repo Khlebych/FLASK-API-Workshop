@@ -45,7 +45,7 @@ def ping():
 #     return jsonify({'users': [user.__dict__ for user in users]})
 
 
-@app.route('/msg/<int:msg_id> ', methods=['POST'])
+@app.route('/msg', methods=['POST'])
 def create_msg():
     """ {"msg_id":1, "author": "@test", "body": "test POST"} """
 
@@ -55,28 +55,29 @@ def create_msg():
     return jsonify({'status msg:': ' - success'})
 
 
-@app.route("/msg/<int:msg_id> ", methods=['GET'])
+@app.route("/msg", methods=['GET'])
 def read_msg():
     return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
 
 
-@app.route("/msg/<int:msg_id> ", methods=['PUT'])
-def upd_msg(msg_id = None):
+@app.route("/msg/<int:msg_id>", methods=['PUT'])
+def upd_msg(msg):
     ''' {"msg_id":1", "author": "@test", "body": "test PUT-1"} '''
     msg_json = request.get_json()
     for msg in msgs:
+        if msg.msg_id == msg_json.msg_id:
+            msg.body = msg_json.body("new message after PUT")
+        return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
+
+
+@app.route("/msg//", methods=['DELETE'])
+def deleting_msg(msg_id=None):
+#    msg_json = request.get_json()
+#    msg_del = User(user_id=user_json['user_id'])
+    for msg in msgs:
         if msg.msg_id == msg_id:
-            object.body = "new message after PUT"
-            return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
-
-
-@app.route("/msg/<int:msg_id> ", methods=['DELETE'])
-def deleting_msg(user_json=None):
-    msg_json = request.get_json()
-    msg_del= User(user_id=user_json['user_id'])
-    for msg_del in msgs:
-        msgs.remove(msg_del)
-    return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
+            msgs.remove(msg)
+        return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
 
 
 if __name__ == '__main__':
