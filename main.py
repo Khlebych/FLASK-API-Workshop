@@ -70,10 +70,9 @@ def upd_msg(msg):
         return jsonify({'msgs': [msg.__dict__ for msg in msgs]})
 
 
-@app.route("/msg//", methods=['DELETE'])
+@app.route("/msg/<int:msg_id>", methods=['DELETE'])
 def deleting_msg(msg_id=None):
-#    msg_json = request.get_json()
-#    msg_del = User(user_id=user_json['user_id'])
+
     for msg in msgs:
         if msg.msg_id == msg_id:
             msgs.remove(msg)
